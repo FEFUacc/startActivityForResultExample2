@@ -1,10 +1,10 @@
 package com.example.myapplication
 
 import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 
@@ -12,8 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     val launcher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
-            val data = it.data?.getStringExtra("!!!")
-            findViewById<TextView>(R.id.tv).text = data
+            val data = it.data?.getStringExtra(EMAIL)
+            findViewById<EditText>(R.id.editTextTextEmailAddress).setText(data)
         }
     }
 
@@ -22,9 +22,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        findViewById<Button>(R.id.button).setOnClickListener{
-            //startActivity(NextActivity.getIntent(this, "KEK"))
-            launcher.launch(NextActivity.getIntent(this, "KEK"))
+        findViewById<Button>(R.id.regbtn).setOnClickListener{
+            launcher.launch(NextActivity.getIntent(this, findViewById<EditText>(R.id.editTextTextEmailAddress).text.toString() ))
         }
+    }
+
+    companion object{
+        const val EMAIL = "email"
     }
 }
